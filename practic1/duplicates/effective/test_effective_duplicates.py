@@ -2,7 +2,7 @@ import unittest
 from effective_duplicates import has_duplicates, get_duplicates
 
 
-class TestHasDuplacates(unittest.TestCase):
+class TestDuplacates(unittest.TestCase):
 
     def test_empty_array(self):
         data = []
