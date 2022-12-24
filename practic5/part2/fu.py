@@ -1,22 +1,9 @@
 import math
 
-def Cruskal(G):
-    mn = []
-    for i in range(len(G)):
-        mn.append({i})
-    MST = set()
-    r = []
-    for i in range(len(G)): 
-        for j in range(i, len(G)):
-            if(G[i][j] != 0):
-                r.append((G[i][j], i, j))
-    r = sorted(r, key=lambda i: i[0])
-            
-    return MST
-
 
 def Prim(G, s):
-    if len(G) == 0 or len(G) == 1: return {}
+    if len(G) == 0 or len(G) == 1:
+        return {}
     minWeight = {i: math.inf for i in range(len(G))}
     minWeight[s] = 0
     Q = [i for i in range(len(G))]
@@ -31,7 +18,7 @@ def Prim(G, s):
         u = Q.pop(Q.index(minIndex))
         for v in range(len(G)):
             if (G[v][u] != 0):
-                if(v in Q and minWeight[v] > G[u][v]):
+                if (v in Q and minWeight[v] > G[u][v]):
                     minWeight[v] = G[u][v]
                     parent[v] = u
     MST = set()
