@@ -1,5 +1,5 @@
 def get_max_activities(S):
-    S = sorted(S, key=lambda x: x[0])
+    S = sorted(S, key=lambda x: x[1])
     max = []
     for i in range(len(S)):
         ans = [S[i]]
