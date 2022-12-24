@@ -1,16 +1,15 @@
-def nativeLcs(a, b):
-    max = ''
-    for k in range(len(a)):
-        count = 0
-        str1 = ''
-        for i in range(k, len(a)):
-            if count == len(b):
-                break
-            for j in range(count, len(b)):
-                if a[i] == b[j]:
-                    str1 += a[i]
-                    count = j+1
-                    break
-        if len(str1) > len(max):
-            max = str1
-    return max
+def nativeLcs(a, b, i, j, ans):
+    if(i == len(a) or j == len(b)):
+        return ans
+    elif(a[i] == b[j]):
+        ans += a[i]
+        ans = nativeLcs(a, b, i+1, j+1, ans)
+        return ans
+    else:
+        ans1 = nativeLcs(a, b, i+1, j, ans)
+        ans2 = nativeLcs(a, b, i, j+1, ans)
+        if(len(ans1) >= len(ans2)):
+            ans = ans1
+        else:
+            ans = ans2
+        return ans
