@@ -2,7 +2,8 @@
 .vscode/
 .idea/
 
-./rgz
+rgz/
+__pycache__/
 # Vagrant
 .vagrant/
 
