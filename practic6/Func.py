@@ -7,6 +7,8 @@ def Length(Path, G):
     for i in range(len(Path)):
         if i == len(Path) - 1:
             break
+        if G[Path[i]][Path[i+1]] == 0:
+            return 0
         s += G[Path[i]][Path[i+1]]
     return s
 
@@ -46,7 +48,7 @@ def BnB(G, visited, BestPath):
         return BestPath
 
 def TSP_BnB(G, start):
-    if len(G) <= 1:
+    if len(G) <= 1 or start >= len(G):
         return []
     visited = [start]
     BestPath = [start]
@@ -74,7 +76,7 @@ def permutation(s):
     return perm_list
 
 def TSP_Pereb(G, start):
-    if len(G) <= 1:
+    if len(G) <= 1 or start >= len(G):
         return []
     cities = [i for i in range(len(G))]
     minS = math.inf
@@ -97,7 +99,7 @@ def TSP_Pereb(G, start):
     return minPerm
 
 def TSP_Greedy(G, start):
-    if len(G) <= 1:
+    if len(G) <= 1 or start >= len(G):
         return []
     current = start
     Path = [current]
@@ -116,3 +118,45 @@ def TSP_Greedy(G, start):
     if G[Path[-1]][start] == 0:
         return []
     return Path
+
+def Transform(Path, A, B, C, D):
+    indexB = Path.index(B)
+    indexC = Path.index(C)
+    BC = Path[indexB:indexC+1][::-1]
+    indexD = Path.index(D)
+    indexA = Path.index(A)
+    DA = Path[indexD:-1] + [Path[-1]] + Path[0:indexA]
+    return [A]+BC+DA
+
+def TwoOptImprove(Path, G):
+    for i in range(len(Path)):
+        if i == len(Path)-1:
+            break
+        E1 = [Path[i],Path[i+1]]
+        for j in range(len(Path)):
+            if j != i and j != i + 1 and j + 1 != i:
+                if j == len(Path) - 1:
+                    break 
+                E2 = [Path[j], Path[j+1]]
+                OldWeight = G[E1[0]][E1[1]] + G[E2[0]][E2[1]]
+                NewWeight = G[E1[0]][E2[0]] + G[E1[1]][E2[1]]
+                if NewWeight < OldWeight:
+                    return Transform(Path, E1[0], E1[1], E2[0], E2[1])
+            else:
+                continue
+    return Path
+ 
+def TSP_LS(G, start):
+    if len(G) <= 1 or start >= len(G):
+        return []
+    Path = [i for i in range (start)] + [i for i in range(start, len(G))]
+    while True:
+        ImprovedPath = TwoOptImprove(Path, G) 
+        L1 = Length(ImprovedPath, G)
+        L2 = Length(Path, G)
+        if L1 == 0 or L2 == 0:
+            return[]
+        if L1 < L2:
+            Path = ImprovedPath
+        else:
+            return Path
