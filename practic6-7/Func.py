@@ -123,6 +123,8 @@ def Transform(Path, A, B, C, D):
     indexB = Path.index(B)
     indexC = Path.index(C)
     BC = Path[indexB:indexC+1][::-1]
+    if BC == []:
+        BC = Path[indexC:indexB+1]
     indexD = Path.index(D)
     indexA = Path.index(A)
     DA = Path[indexD:-1] + [Path[-1]] + Path[0:indexA]
@@ -132,23 +134,29 @@ def TwoOptImprove(Path, G):
     for i in range(len(Path)):
         if i == len(Path)-1:
             break
-        E1 = [Path[i],Path[i+1]]
-        for j in range(len(Path)):
-            if j != i and j != i + 1 and j + 1 != i:
-                if j == len(Path) - 1:
-                    break 
-                E2 = [Path[j], Path[j+1]]
-                OldWeight = G[E1[0]][E1[1]] + G[E2[0]][E2[1]]
-                NewWeight = G[E1[0]][E2[0]] + G[E1[1]][E2[1]]
-                if NewWeight < OldWeight:
-                    return Transform(Path, E1[0], E1[1], E2[0], E2[1])
-            else:
-                continue
+        for j in range(i+1,len(Path)): 
+            E1 = [Path[i],Path[j]]
+            E2 = []            
+            for v in range(len(Path)):
+                if v == E1[1] or v == E1[0]:
+                    continue
+                if v+1 == len(Path):
+                    break
+                for u in range(v+1, len(Path)):
+                    if u == E1[1] or u == E1[0]:
+                        continue
+                    E2 = [v, u]
+                    OldWeight = G[E1[0]][E1[1]] + G[E2[0]][E2[1]]
+                    NewWeight = G[E1[0]][E2[0]] + G[E1[1]][E2[1]]
+                    if NewWeight < OldWeight:
+                        return Transform(Path, E1[0], E1[1], E2[0], E2[1])
     return Path
  
 def TSP_LS(G, start):
     if len(G) <= 1 or start >= len(G):
         return []
+    if len(G) < 4:
+        return TSP_Greedy(G, start)
     Path = [i for i in range (start)] + [i for i in range(start, len(G))]
     while True:
         ImprovedPath = TwoOptImprove(Path, G) 

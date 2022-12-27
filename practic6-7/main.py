@@ -1,5 +1,4 @@
-from Func import TSP_Pereb, TSP_Greedy, TSP_BnB, Length
-from fu import TSP_LS
+from Func import TSP_Pereb, TSP_Greedy, TSP_BnB, Length, TSP_LS
 import math
 import random as ran
 import time
@@ -35,9 +34,8 @@ t2 = time.perf_counter()
 
 print(Length(L4,G), L4, f"Время: {t2 - t1:0.4f}")
 
+t1 = time.perf_counter()
+L2 = TSP_Pereb(G, 0)
+t2 = time.perf_counter()
 
-# t1 = time.perf_counter()
-# L2 = TSP_Pereb(G, 0)
-# t2 = time.perf_counter()
-
-# print(Length(L2,G), f"Время: {t2 - t1:0.4f}")
+print(Length(L2,G), f"Время: {t2 - t1:0.4f}")

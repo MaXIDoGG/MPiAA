@@ -22,7 +22,7 @@ class TestsTSP(TestCase):
         self.assertEqual(TSP_Pereb(g, 0), [0, 1])
         self.assertEqual(TSP_Greedy(g, 0), [0, 1])
         self.assertEqual(TSP_BnB(g, 0), [0, 1])
-        # self.assertEqual(TSP_LS(g, 0), [0, 1])
+        self.assertEqual(TSP_LS(g, 0), [0, 1])
 
     def testThreeEdges(self):
         g = [[0, 2.5, 0.5],
@@ -31,7 +31,7 @@ class TestsTSP(TestCase):
         self.assertEqual(TSP_BnB(g, 0), [0, 2, 1])
         self.assertEqual(TSP_Greedy(g, 0), [0, 2, 1])
         self.assertEqual(TSP_Pereb(g, 0), [0, 2, 1])
-        # self.assertEqual(TSP_LS(g, 0), [0, 2, 1])
+        self.assertEqual(TSP_LS(g, 0), [0, 2, 1])
 
     def testSeveralVertices(self):
         g = [[0, 6, 4, 1],
